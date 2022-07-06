@@ -12,6 +12,7 @@ event_schema = StructType([
   StructField('failed', IntegerType(), True),
 ])
 
+
 def events_to_dataframe(df):
     d = []
     group_key = df['timestamp'].iloc[0]

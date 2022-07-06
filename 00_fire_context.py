@@ -28,7 +28,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC <img src=https://d1r5llqwmkrl74.cloudfront.net/notebooks/fsi/reg_reporting/images/reference_architecture.png width="800px">
+# MAGIC <img src=https://github.com/databricks-industry-solutions/reg-reporting/blob/master/images/reference_architecture.png?raw=true width="800px">
 
 # COMMAND ----------
 

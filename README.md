@@ -24,7 +24,7 @@ ___
 
 ___
 
-<img src=https://github.com/databricks-industry-solutions/reg-reporting/blob/master/images/reference_architecture.png?raw=true width="800px">
+<img src=https://raw.githubusercontent.com/databricks-industry-solutions/reg-reporting/main/images/reference_architecture.png width=800>
 
 ___
 

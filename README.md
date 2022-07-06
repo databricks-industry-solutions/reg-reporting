@@ -32,6 +32,6 @@ ___
 
 | library                                | description             | license    | source                                              |
 |----------------------------------------|-------------------------|------------|-----------------------------------------------------|
-| Yfinance                               | Yahoo finance           | Apache2    | https://github.com/ranaroussi/yfinance              |
-| tempo                                  | Timeseries library      | Databricks | https://github.com/databrickslabs/tempo             |
+| FIRE                                   | Regulatory models       | Apache v2  | https://github.com/SuadeLabs/fire                   |
+| waterbear                              | data model lib         | Databricks | https://github.com/databrickslabs/waterbear          |
 | PyYAML                                 | Reading Yaml files      | MIT        | https://github.com/yaml/pyyaml                      |

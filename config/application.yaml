@@ -1,0 +1,19 @@
+fire:
+  model:
+    dir: '/FileStore/solution_accelerators/fire/model'
+  entity: 'collateral'
+  events:
+    dir: '/FileStore/solution_accelerators/fire/events'
+  pipeline:
+    dir: '/FileStore/solution_accelerators/fire/dlt'
+  
+files:
+  num: 10
+  records: 100
+  
+delta:
+  db:
+    path: '/FileStore/solution_accelerators/fire/dmz'
+    name: 'fire'
+    metrics: 'metrics'
+  

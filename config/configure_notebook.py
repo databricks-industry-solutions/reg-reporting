@@ -32,9 +32,11 @@ model_dir
 
 # COMMAND ----------
 
-db_name = config['delta']['db']['name']
-db_path = config['delta']['db']['path']
-_ = sql("CREATE DATABASE IF NOT EXISTS {}".format(db_name))
+dbutils.fs.mkdirs(config['delta']['db']['path'])
+_ = sql("CREATE DATABASE IF NOT EXISTS {} LOCATION '{}'".format(
+  config['delta']['db']['name'], 
+  config['delta']['db']['path']
+))
 
 # COMMAND ----------
 

@@ -1,2 +1,0 @@
-dbl-waterbear==0.1.1
-PyYAML==6.0

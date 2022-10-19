@@ -1,5 +1,5 @@
 # Databricks notebook source
-# MAGIC %pip install dbl-waterbear==0.1.1
+# MAGIC %pip install dbl-waterbear
 
 # COMMAND ----------
 
@@ -12,12 +12,14 @@ except:
 try:
   # where new data file will be received
   fire_event_dir = spark.conf.get("fire.events.dir")
+  dbutils.fs.mkdirs(fire_event_dir)
 except:
   raise Exception("Please provide [fire.events.dir] as job configuration")
   
 try:
   # where we can find fire data model
   fire_model = spark.conf.get("fire.model.dir")
+  dbutils.fs.mkdirs(fire_model)
 except:
   raise Exception("Please provide [fire.model.dir] as job configuration")
 

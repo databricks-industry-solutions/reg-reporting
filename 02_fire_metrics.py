@@ -2,10 +2,14 @@
 # MAGIC %md
 # MAGIC # Pipeline monitoring
 # MAGIC In the previous notebook, we demonstrated how to ingest, clean and process raw data used in the transmission of regulatory reports. We stored high quality data to a silver table and invalid records to quarantine. Although data quality metrics are available from the job interface, we demonstrate how organizations can programmatically access those metrics into an operational datastore.
+# MAGIC 
+# MAGIC [![DLT](https://img.shields.io/badge/-DLT-grey)]()
+# MAGIC [![DLT](https://img.shields.io/badge/-AUTO_LOADER-grey)]()
+# MAGIC [![DLT](https://img.shields.io/badge/-DELTA_SHARING-grey)]()
 
 # COMMAND ----------
 
-# MAGIC %run ./config/configure_notebook
+# MAGIC %run ./config/fire_config
 
 # COMMAND ----------
 
@@ -15,8 +19,9 @@
 
 # COMMAND ----------
 
-entity = config['fire']['entity']
-pipeline_dir = config['fire']['pipeline']['dir']
+import hashlib
+entity = config['fire.entity']
+pipeline_dir = f"{config['fire.pipeline.dir']}/{entity}"
 df = spark.read.format("delta").load(f'{pipeline_dir}/system/events')
 display(df)
 
@@ -27,9 +32,42 @@ display(df)
 
 # COMMAND ----------
 
-from utils.dlt_utils import *
+from pyspark.sql import functions as F
+from pyspark.sql.types import *
+import pandas as pd
+import json
+
+event_schema = StructType([
+  StructField('timestamp', TimestampType(), True),
+  StructField('step', StringType(), True),
+  StructField('expectation', StringType(), True),
+  StructField('passed', IntegerType(), True),
+  StructField('failed', IntegerType(), True),
+])
+
+def events_to_dataframe(df):
+  d = []
+  group_key = df['timestamp'].iloc[0]
+  for i, r in df.iterrows():
+    json_obj = json.loads(r['details'])
+    try:
+      expectations = json_obj['flow_progress']['data_quality']['expectations']
+      for expectation in expectations:
+        d.append([group_key, expectation['dataset'], expectation['name'], expectation['passed_records'], expectation['failed_records']])
+    except:
+      pass
+  return pd.DataFrame(d, columns=['timestamp', 'step', 'expectation', 'passed', 'failed'])
+
+def extract_metrics(df):
+  return df \
+    .filter(F.col("event_type") == "flow_progress") \
+    .groupBy("timestamp").applyInPandas(events_to_dataframe, schema=event_schema) \
+    .select("timestamp", "step", "expectation", "passed", "failed")
+
+# COMMAND ----------
+
 df = df.withColumn('entity', F.lit(entity))
-display(df.transform(extract_metrics))
+display(extract_metrics(df))
 
 # COMMAND ----------
 
@@ -39,26 +77,32 @@ display(df.transform(extract_metrics))
 
 # COMMAND ----------
 
+db_name = config['delta.sharing.db.name']
+db_path = config['delta.sharing.db.path']
+_ = sql("CREATE DATABASE IF NOT EXISTS {}".format(db_name))
+
+# COMMAND ----------
+
 input_stream = spark \
     .readStream \
     .format('delta') \
     .load('{}/system/events'.format(pipeline_dir)) \
 
-output_stream = input_stream.transform(extract_metrics)
+output_stream = extract_metrics(input_stream)
 
 output_stream \
   .writeStream \
   .trigger(once=True) \
   .format('delta') \
   .option('checkpointLocation', '{}/ods_chk'.format(pipeline_dir)) \
-  .table('{}.{}'.format(db_name, config['delta']['db']['metrics']))
+  .table('{}.{}'.format(db_name, config['delta.sharing.metrics']))
 
 # COMMAND ----------
 
 display(
   spark
     .read
-    .table('{}.{}'.format(db_name, config['delta']['db']['metrics']))
+    .table('{}.{}'.format(db_name, config['delta.sharing.metrics']))
     .groupBy(F.to_date(F.col('timestamp')).alias('date'))
     .agg(F.sum('passed').alias('passed'), F.sum('failed').alias('failed'))
 )

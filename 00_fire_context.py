@@ -3,9 +3,8 @@
 # MAGIC 
 # MAGIC <img src=https://d1r5llqwmkrl74.cloudfront.net/notebooks/fs-lakehouse-logo.png width="600px">
 # MAGIC 
-# MAGIC [![DBR](https://img.shields.io/badge/DBR-10.4-red?logo=databricks&style=for-the-badge)](https://docs.databricks.com/release-notes/runtime/10.4.html)
-# MAGIC [![CLOUD](https://img.shields.io/badge/CLOUD-ALL-blue?logo=googlecloud&style=for-the-badge)](https://databricks.com/try-databricks)
-# MAGIC [![POC](https://img.shields.io/badge/POC-5_days-green?style=for-the-badge)](https://databricks.com/try-databricks)
+# MAGIC [![DBU](https://img.shields.io/badge/DBU-M-green)]()
+# MAGIC [![COMPLEXITY](https://img.shields.io/badge/COMPLEXITY-201-orange)]()
 # MAGIC 
 # MAGIC 
 # MAGIC *In today’s interconnected world, managing risk and regulatory compliance is an increasingly complex and costly endeavour.
@@ -28,7 +27,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC <img src=https://raw.githubusercontent.com/databricks-industry-solutions/reg-reporting/main/images/reference_architecture.png width=800>
+# MAGIC <img src=https://d1r5llqwmkrl74.cloudfront.net/notebooks/fsi/reg_reporting/images/reference_architecture.png width="800px">
 
 # COMMAND ----------
 
@@ -45,11 +44,16 @@
 
 # COMMAND ----------
 
-# MAGIC %run ./config/configure_notebook
+# MAGIC %run ./config/fire_config
 
 # COMMAND ----------
 
 generate_data()
+
+# COMMAND ----------
+
+for k in config.keys():
+  print('{}\t{}'.format(k, config[k]))
 
 # COMMAND ----------
 
@@ -60,4 +64,3 @@ generate_data()
 # MAGIC |----------------------------------------|-------------------------|------------|-----------------------------------------------------|
 # MAGIC | FIRE                                   | Regulatory models       | Apache v2  | https://github.com/SuadeLabs/fire                   |
 # MAGIC | waterbear                              | data model lib         | Databricks | https://github.com/databrickslabs/waterbear          |
-# MAGIC | PyYAML                                 | Reading Yaml files      | MIT        | https://github.com/yaml/pyyaml                      |

@@ -1,4 +1,9 @@
 # Databricks notebook source
+# MAGIC %md 
+# MAGIC You may find this series of notebooks at https://github.com/databricks-industry-solutions/reg-reporting on the `web-sync` branch. For more information about this solution accelerator, please read this [blog](https://www.databricks.com/blog/2021/09/17/timeliness-and-reliability-in-the-transmission-of-regulatory-reports.html).
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC 
 # MAGIC <img src=https://d1r5llqwmkrl74.cloudfront.net/notebooks/fs-lakehouse-logo.png width="600px">

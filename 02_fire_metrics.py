@@ -1,4 +1,9 @@
 # Databricks notebook source
+# MAGIC %md 
+# MAGIC You may find this series of notebooks at https://github.com/databricks-industry-solutions/reg-reporting on the `web-sync` branch. For more information about this solution accelerator, please read this [blog](https://www.databricks.com/blog/2021/09/17/timeliness-and-reliability-in-the-transmission-of-regulatory-reports.html).
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC # Pipeline monitoring
 # MAGIC In the previous notebook, we demonstrated how to ingest, clean and process raw data used in the transmission of regulatory reports. We stored high quality data to a silver table and invalid records to quarantine. Although data quality metrics are available from the job interface, we demonstrate how organizations can programmatically access those metrics into an operational datastore.

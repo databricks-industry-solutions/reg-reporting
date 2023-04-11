@@ -84,7 +84,8 @@ display(extract_metrics(df))
 
 db_name = config['delta.sharing.db.name']
 db_path = config['delta.sharing.db.path']
-_ = sql("CREATE DATABASE IF NOT EXISTS {}".format(db_name))
+_ = sql("DROP DATABASE IF EXISTS {} CASCADE".format(db_name))
+_ = sql("CREATE DATABASE {}".format(db_name))
 
 # COMMAND ----------
 
